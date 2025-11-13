@@ -42,7 +42,7 @@ def fetch_and_analyze_returns(startdate, enddate, ticker_list):
   import pandas as pd
   import matplotlib.pyplot as plt
   import seaborn as sns
-  !pip install yfinance
+
   import yfinance as yf
   from IPython.display import display
 
