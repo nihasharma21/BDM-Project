@@ -243,7 +243,7 @@ def run_portfolio_model(df: 'pd.DataFrame', ipopt_executable: str = './bin/ipopt
 
   # Risk thresholds to test
   max_risk = 0.1
-  risk_limits = np.arange(0.001, max_risk, 0.001)
+  risk_limits = np.arange(0.005, max_risk, 0.001)
 
   # Result storage
   param_analysis = {}
