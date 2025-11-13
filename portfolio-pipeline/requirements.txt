@@ -5,5 +5,3 @@ seaborn
 yfinance
 pyomo
 idaes-pse
-sys
-os
