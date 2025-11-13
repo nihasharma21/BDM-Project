@@ -350,15 +350,3 @@ def run_portfolio_pipeline(
     # 3) Return everything (so main.py can print/inspect)
     return monthly_returns, df_frontier, df_allocations
 
-"""# Calling both functions"""
-
-#Input Values
-tickers_list = ['GE','KO','NVDA']
-start = "2020-01-01"
-end   = "2024-01-01"
-
-#Calling Function 1:
-monthly_returns = fetch_and_analyze_returns(start, end, tickers_list)
-
-#Calling Function 2:
-run_portfolio_model(monthly_returns)
