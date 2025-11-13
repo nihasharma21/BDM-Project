@@ -180,7 +180,7 @@ def fetch_and_analyze_returns(startdate, enddate, ticker_list):
 
 """
 
-def run_portfolio_model(df: 'pd.DataFrame', ipopt_executable: str = '/content/bin/ipopt'):
+def run_portfolio_model(df: 'pd.DataFrame', ipopt_executable: str = './bin/ipopt'):
   #Concrete Model
   print ('Lets define the concrete model\n\n')
 
