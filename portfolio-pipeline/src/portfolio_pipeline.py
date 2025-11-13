@@ -34,6 +34,26 @@ Both the functions are called in the third cell code which will analyze the retu
 #   import numpy as np
 #   import matplotlib.pyplot as plt
 
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import yfinance as yf
+from IPython.display import display
+
+from pyomo.environ import (
+    ConcreteModel,
+    Set,
+    Var,
+    Param,
+    NonNegativeReals,
+    Objective,
+    Constraint,
+    maximize,
+)
+from pyomo.opt import SolverFactory, TerminationCondition
+
+
 """# Function 1: Fetching and Analyzing Stock Returns"""
 
 def fetch_and_analyze_returns(startdate, enddate, ticker_list):
