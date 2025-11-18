@@ -152,7 +152,7 @@ def fetch_and_analyze_returns(startdate, enddate, ticker_list):
 
   monthly_returns.cov()
 
-  # Calculate the covariance matrix
+  # the covariance matrix
   cov_matrix = monthly_returns.cov()
 
   # Plot the covariance matrix as a heatmap
