@@ -208,7 +208,7 @@ def run_portfolio_model(df: 'pd.DataFrame', ipopt_executable: str = './bin/ipopt
   print("Checking the covariance values\n\n")
   m.pprint()
 
-  #Objective Function
+  # Objective Function in the code
   # Calculate average returns per asset
   avg_returns = df.mean().to_dict()
 
