@@ -17,8 +17,8 @@ Both the functions are called in the third cell code which will analyze the retu
 # Downloading Server and Importing modules
 """
 
-# Commented out IPython magic to ensure Python compatibility.
-#  #Download the server
+# Commented out IPython magic to ensure Python compatibility
+#  #Download the server..
 # %%capture
 # import sys
 # import os
@@ -82,7 +82,7 @@ def fetch_and_analyze_returns(startdate, enddate, ticker_list):
       except Exception as e:
           print(f"Failed {t}: {e}")
 
-  # take a peak!
+  # take a peak!!!
   # dow_prices # Commented out to prevent verbose output during execution
 
   prep_data = pd.DataFrame(dow_prices[ticker_list[0]]['Adj Close']).rename(columns = {"Adj Close":ticker_list[0]})
@@ -93,7 +93,7 @@ def fetch_and_analyze_returns(startdate, enddate, ticker_list):
   # prep_data # Commented out to prevent verbose output during execution
   # prep_data.shape # Commented out to prevent verbose output during execution
 
-  # create return features for each ticker,
+  # create return features for each ticker
   # we will just use a pct_change as the return
   return_data = pd.DataFrame()
   for i in ticker_list:
@@ -102,7 +102,7 @@ def fetch_and_analyze_returns(startdate, enddate, ticker_list):
   return_data.dropna(inplace=True)
   # return_data # Commented out to prevent verbose output during execution
 
-  # Calculate cumulative returns for simple returns
+  # Calculate cumulative returns for simple returns...
   cumulative_returns = (1 + return_data).cumprod() - 1
 
   # Plot the cumulative returns
