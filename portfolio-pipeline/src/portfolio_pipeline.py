@@ -1,3 +1,15 @@
+#UA Adding the output directory 
+# -------------------------------------------
+# Setup output directory for saving all outputs
+# -------------------------------------------
+import os
+
+OUTPUT_DIR = "./output_dir/"
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+os.environ["OUTPUT_DIR"] = OUTPUT_DIR
+
+print(f"Output directory set to: {OUTPUT_DIR}")
+
 # -*- coding: utf-8 -*-
 """v2 Final Group 3 Final working version.ipynb
 
@@ -112,6 +124,7 @@ def fetch_and_analyze_returns(startdate, enddate, ticker_list):
   plt.ylabel('Cumulative Return')
   plt.grid(True)
   plt.show()
+plt.savefig(os.path.join(OUTPUT_DIR, "plot1.png"))
 
   # Calculate log returns
   log_return_data = pd.DataFrame()
@@ -134,6 +147,9 @@ def fetch_and_analyze_returns(startdate, enddate, ticker_list):
           layout=(20,16),
           figsize=(15,15))
   plt.show()
+plt.savefig(os.path.join(OUTPUT_DIR, "plot2.png"))
+
+
 
   # Calculate monthly returns
   monthly_returns = prep_data.resample('ME').ffill().pct_change()
@@ -143,6 +159,8 @@ def fetch_and_analyze_returns(startdate, enddate, ticker_list):
 
   print("Here are the Monthly Returns:")
   display(monthly_returns)
+plt.savefig(os.path.join(OUTPUT_DIR, "plot3.png"))
+
 
   monthly_returns[ticker_list[0]].plot() # Updated to use the first ticker from ticker_list
 
@@ -160,6 +178,8 @@ def fetch_and_analyze_returns(startdate, enddate, ticker_list):
   sns.heatmap(cov_matrix, annot=True, cmap='coolwarm', fmt=".4f", center=0)
   plt.title('Covariance Matrix of Monthly Returns')
   plt.show()
+plt.savefig(os.path.join(OUTPUT_DIR, "plot4.png"))
+
 
   # Calculate the covariance matrix
   cor_matrix = monthly_returns.corr()
@@ -169,12 +189,17 @@ def fetch_and_analyze_returns(startdate, enddate, ticker_list):
   sns.heatmap(cor_matrix, annot=True, cmap='coolwarm', fmt=".4f", center=0)
   plt.title('Correlation Matrix of Monthly Returns')
   plt.show()
+plt.savefig(os.path.join(OUTPUT_DIR, "plot5.png"))
+
 
   # monthly_returns.shape # Commented out to prevent verbose output during execution
 
   print('Shape of monthly_returns:', monthly_returns.shape)
   return monthly_returns
   # print('Monthly returns above\n\n\n\n') # Commented out as it's unreachable after return
+df.to_csv(os.path.join(OUTPUT_DIR, "df1.csv"))
+
+
 
 """# Function 2: Run Portfolio Model
 
@@ -207,6 +232,7 @@ def run_portfolio_model(df: 'pd.DataFrame', ipopt_executable: str = './bin/ipopt
   m.Sigma = Param(m.Assets, m.Assets, initialize=cov_dict)
   print("Checking the covariance values\n\n")
   m.pprint()
+
 
   # Objective Function in the code
   # Calculate average returns per asset
@@ -284,6 +310,7 @@ def run_portfolio_model(df: 'pd.DataFrame', ipopt_executable: str = './bin/ipopt
   df_results = df_results.sort_values(by='Risk')
   df_results.head(n=10)
 
+
   import matplotlib.pyplot as plt
 
   plt.figure(figsize=(10,6))
@@ -293,6 +320,8 @@ def run_portfolio_model(df: 'pd.DataFrame', ipopt_executable: str = './bin/ipopt
   plt.ylabel("Expected Return")
   plt.grid(True)
   plt.show()
+plt.savefig(os.path.join(OUTPUT_DIR, "plot6.png"))
+
 
   import matplotlib.pyplot as plt
   import pandas as pd
@@ -314,6 +343,8 @@ def run_portfolio_model(df: 'pd.DataFrame', ipopt_executable: str = './bin/ipopt
   plt.grid(True)
   plt.tight_layout()
   plt.show()
+plt.savefig(os.path.join(OUTPUT_DIR, "plot7.png"))
+
 
    # NEW: return the numeric results for use by the wrapper / main.py
   return df_results, df_allocations
