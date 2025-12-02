@@ -4,11 +4,13 @@
 # -------------------------------------------
 import os
 
-OUTPUT_DIR = "./output_dir/"
-os.makedirs(OUTPUT_DIR, exist_ok=True)
-os.environ["OUTPUT_DIR"] = OUTPUT_DIR
+# ---- NS- Commenting to fix indent issue
+#OUTPUT_DIR = "./output_dir/"
+#os.makedirs(OUTPUT_DIR, exist_ok=True)
+#os.environ["OUTPUT_DIR"] = OUTPUT_DIR
 
-print(f"Output directory set to: {OUTPUT_DIR}")
+#print(f"Output directory set to: {OUTPUT_DIR}")
+# ----
 
 # -*- coding: utf-8 -*-
 """v2 Final Group 3 Final working version.ipynb
@@ -124,7 +126,7 @@ def fetch_and_analyze_returns(startdate, enddate, ticker_list):
   plt.ylabel('Cumulative Return')
   plt.grid(True)
   plt.show()
-plt.savefig(os.path.join(OUTPUT_DIR, "plot1.png"))
+  plt.savefig(os.path.join(OUTPUT_DIR, "plot1.png"))
 
   # Calculate log returns
   log_return_data = pd.DataFrame()
@@ -147,7 +149,7 @@ plt.savefig(os.path.join(OUTPUT_DIR, "plot1.png"))
           layout=(20,16),
           figsize=(15,15))
   plt.show()
-plt.savefig(os.path.join(OUTPUT_DIR, "plot2.png"))
+  #plt.savefig(os.path.join(OUTPUT_DIR, "plot2.png"))
 
 
 
@@ -159,7 +161,7 @@ plt.savefig(os.path.join(OUTPUT_DIR, "plot2.png"))
 
   print("Here are the Monthly Returns:")
   display(monthly_returns)
-plt.savefig(os.path.join(OUTPUT_DIR, "plot3.png"))
+  #plt.savefig(os.path.join(OUTPUT_DIR, "plot3.png"))
 
 
   monthly_returns[ticker_list[0]].plot() # Updated to use the first ticker from ticker_list
@@ -178,7 +180,7 @@ plt.savefig(os.path.join(OUTPUT_DIR, "plot3.png"))
   sns.heatmap(cov_matrix, annot=True, cmap='coolwarm', fmt=".4f", center=0)
   plt.title('Covariance Matrix of Monthly Returns')
   plt.show()
-plt.savefig(os.path.join(OUTPUT_DIR, "plot4.png"))
+  #plt.savefig(os.path.join(OUTPUT_DIR, "plot4.png"))
 
 
   # Calculate the covariance matrix
@@ -189,7 +191,7 @@ plt.savefig(os.path.join(OUTPUT_DIR, "plot4.png"))
   sns.heatmap(cor_matrix, annot=True, cmap='coolwarm', fmt=".4f", center=0)
   plt.title('Correlation Matrix of Monthly Returns')
   plt.show()
-plt.savefig(os.path.join(OUTPUT_DIR, "plot5.png"))
+  #plt.savefig(os.path.join(OUTPUT_DIR, "plot5.png"))
 
 
   # monthly_returns.shape # Commented out to prevent verbose output during execution
@@ -320,7 +322,7 @@ def run_portfolio_model(df: 'pd.DataFrame', ipopt_executable: str = './bin/ipopt
   plt.ylabel("Expected Return")
   plt.grid(True)
   plt.show()
-plt.savefig(os.path.join(OUTPUT_DIR, "plot6.png"))
+  #plt.savefig(os.path.join(OUTPUT_DIR, "plot6.png"))
 
 
   import matplotlib.pyplot as plt
@@ -343,7 +345,7 @@ plt.savefig(os.path.join(OUTPUT_DIR, "plot6.png"))
   plt.grid(True)
   plt.tight_layout()
   plt.show()
-plt.savefig(os.path.join(OUTPUT_DIR, "plot7.png"))
+  #plt.savefig(os.path.join(OUTPUT_DIR, "plot7.png"))
 
 
    # NEW: return the numeric results for use by the wrapper / main.py
