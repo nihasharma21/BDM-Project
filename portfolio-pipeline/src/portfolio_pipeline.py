@@ -199,7 +199,7 @@ def fetch_and_analyze_returns(startdate, enddate, ticker_list):
   print('Shape of monthly_returns:', monthly_returns.shape)
   return monthly_returns
   # print('Monthly returns above\n\n\n\n') # Commented out as it's unreachable after return
-df.to_csv(os.path.join(OUTPUT_DIR, "df1.csv"))
+#df.to_csv(os.path.join(OUTPUT_DIR, "df1.csv"))
 
 
 
