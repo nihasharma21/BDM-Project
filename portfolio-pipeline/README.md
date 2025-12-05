@@ -9,3 +9,6 @@
 # 3) Run with your own tickers
 * TICKERS = "AAPL MSFT NVDA AMZN GOOGL"
 * !python main.py --ipopt ./bin/ipopt --start 2022-01-01 --end 2024-01-01 --tickers {TICKERS}
+
+#4) Once everything is run, the output is created in colab folder (below one)
+* /content/BDM-Project/portfolio-pipeline/output_dir/
