@@ -269,6 +269,11 @@ def run_portfolio_pipeline(
     #Adding argument for output directory
      output_dir=None,
 ):
+
+    if output_dir is None:
+        output_dir = os.environ.get("OUTPUT_DIR", "./output_dir/")
+    os.makedirs(output_dir, exist_ok=True)
+    
     # 1) Get monthly returns
     monthly_returns = fetch_and_analyze_returns(start_date, end_date, tickers)
 
@@ -283,11 +288,22 @@ def run_portfolio_pipeline(
             f"(min recommended = {min_months_required}). Proceeding anyway."
         )
 
+    
+
     # 2) Run optimization model
     df_frontier, df_allocations = run_portfolio_model(
         monthly_returns,
         ipopt_executable=ipopt_executable,
     )
 
-    # 3) Return everything
+  # 3) Save key outputs to CSV in output_dir
+    monthly_returns.to_csv(os.path.join(output_dir, "monthly_returns.csv"))
+    df_frontier.to_csv(os.path.join(output_dir, "efficient_frontier.csv"), index=False)
+    df_allocations.to_csv(os.path.join(output_dir, "allocations_by_risk.csv"), index=False)
+
+    print(f"Saved monthly_returns to {os.path.join(output_dir, 'monthly_returns.csv')}")
+    print(f"Saved efficient frontier to {os.path.join(output_dir, 'efficient_frontier.csv')}")
+    print(f"Saved allocations by risk to {os.path.join(output_dir, 'allocations_by_risk.csv')}")
+    
+    # 4) Return everything
     return monthly_returns, df_frontier, df_allocations
