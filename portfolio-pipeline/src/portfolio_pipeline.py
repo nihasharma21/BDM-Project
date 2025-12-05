@@ -1,4 +1,4 @@
-import os  # you can remove this if not used anywhere else
+import os  
 
 import numpy as np
 import pandas as pd
@@ -266,6 +266,8 @@ def run_portfolio_pipeline(
     start_date,
     end_date,
     min_months_required: int = 6,
+    #Adding argument for output directory
+     output_dir=None,
 ):
     # 1) Get monthly returns
     monthly_returns = fetch_and_analyze_returns(start_date, end_date, tickers)
