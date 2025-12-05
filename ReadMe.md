@@ -138,12 +138,32 @@ The curve flattens beyond a certain point, indicating diminishing return for inc
 
 Each line: A stock's allocation at each portfolio along the frontier
 
-### Observation:
-
-A few stocks (e.g., MSFT, T, EQIX) frequently hit the 20% ceiling — indicating strong risk-return characteristics.
-Others receive minimal or no weight, suggesting they do not contribute efficiently to optimized portfolios under current market conditions.
-
 ### Allocation CSV (efficient_frontier.csv)
 
 Provides detailed allocations per asset at each risk level.
 Useful for selecting specific portfolios (e.g., conservative, balanced, aggressive) and understanding underlying holdings.
+
+##  Observations From the Allocation-by-Risk Chart
+
+### **Overall Allocation Behavior**
+The allocation-by-risk (“spaghetti”) chart shows how the portfolio composition changes as the optimizer moves across increasing levels of portfolio risk. A clear pattern emerges:
+
+- A small set of high-return stocks consistently receive the highest allocations.
+- Many stocks receive near-zero weights across most of the frontier, indicating that they are not attractive given their return–risk–correlation profile.
+- The 20% position cap is **binding** for several assets—meaning the optimizer wants to allocate more than 20% to them, but is restricted by the diversification constraint.
+
+This produces a frontier where additional risk does not always translate into more expected return, because the model is already maxing out the most attractive assets.
+
+---
+
+### **Specific Insight: Microsoft (MSFT)**
+One notable pattern is that **MSFT stays at the maximum allowed 20% weight across nearly the entire efficient frontier**.  
+
+This does **not** mean “the model is putting everything into Microsoft.” Instead:
+
+- MSFT is one of the most attractive stocks based on monthly returns and covariance.
+- Because of the 20% cap, the optimizer allocates **exactly 20%** to MSFT whenever possible.
+- Other stocks such as EQIX, PLTR, ADBE, META, and T exhibit similar behavior—they also hit the 20% ceiling across long portions of the frontier.
+
+This confirms that the **max-weight diversification constraint is actively shaping the portfolio**, preventing unrealistic concentration in a few dominant names.
+
