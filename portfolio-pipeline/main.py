@@ -25,3 +25,8 @@ if __name__ == "__main__":
     print("\nMonthly returns:", mret.shape)
     print(frontier.head())
     print(allocs.head())
+
+#Creating a directory to store the output
+OUTPUT_DIR = "./output_dir/"
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+os.environ["OUTPUT_DIR"] = OUTPUT_DIR
