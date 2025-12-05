@@ -29,3 +29,6 @@ portfolio-pipeline/
 └─ bin/
    └─ ipopt                   # Ipopt executable (downloaded via idaes)
 
+Note: output_dir/ is created automatically when you run the script.
+All tables and images are saved there.
+
