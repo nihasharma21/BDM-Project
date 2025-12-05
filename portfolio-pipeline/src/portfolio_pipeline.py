@@ -158,6 +158,7 @@ def run_portfolio_model(df: "pd.DataFrame", ipopt_executable: str = "./bin/ipopt
         return m.x[a] <= max_weight
 
     m.max_weight = Constraint(m.Assets, rule=max_weight_rule)
+    print("Constraint 4: Max weight per asset (20%) has been applied.")
 
     # Covariance matrix (Sigma)
     cov_df = df.cov()
