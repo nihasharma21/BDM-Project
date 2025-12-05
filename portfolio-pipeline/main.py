@@ -31,14 +31,14 @@ if __name__ == "__main__":
         # Added this line to save the output
         output_dir=OUTPUT_DIR, 
     )
-    print("\nMonthly returns shape:", mret.shape)
+print("\nMonthly returns shape:", mret.shape)
 
-    print("\nEfficient frontier (head):")
-    print(frontier.head())
+print("\nEfficient frontier (head):")
+print(frontier.head())
 
-    print("\nSample allocations by risk (head):")
-    print(allocs.head())
+print("\nSample allocations by risk (head):")
+print(allocs.head())
 
-    print("\nKey portfolios (Conservative / Balanced / Aggressive):")
-    print(key_ports)
+print("\nKey portfolios (Conservative / Balanced / Aggressive):")
+print(key_ports)
 
