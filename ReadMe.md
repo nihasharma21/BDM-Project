@@ -1,4 +1,4 @@
-#  BDM-Project  
+#  Strategic Synergy- Stock Optimization Model 
 ### *Portfolio Optimization Pipeline – OPIM 5641 Final Project*
 
 This project implements a reusable, end-to-end **portfolio optimization pipeline** for the OPIM 5641 (Business Decision Modeling) final assignment.  
