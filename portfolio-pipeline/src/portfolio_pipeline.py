@@ -384,4 +384,4 @@ def run_portfolio_pipeline(
     print(f"Saved allocations by risk to {os.path.join(output_dir, 'allocations_by_risk.csv')}")
     
     # 5) Return everything
-    return monthly_returns, df_frontier, df_allocations
+    return monthly_returns, df_frontier, df_allocations, , df_key_portfolios
