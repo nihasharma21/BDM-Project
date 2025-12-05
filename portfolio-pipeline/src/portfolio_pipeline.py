@@ -151,6 +151,14 @@ def run_portfolio_model(df: "pd.DataFrame", ipopt_executable: str = "./bin/ipopt
     # Decision variables: weights
     m.x = Var(m.Assets, within=NonNegativeReals, bounds=(0, 1))
 
+      # Extra constraint: no single asset can be more than 20% of the portfolio
+    max_weight = 0.20
+
+    def max_weight_rule(m, a):
+        return m.x[a] <= max_weight
+
+    m.max_weight = Constraint(m.Assets, rule=max_weight_rule)
+
     # Covariance matrix (Sigma)
     cov_df = df.cov()
     cov_dict = {(i, j): cov_df.loc[i, j] for i in assets for j in assets}
@@ -305,7 +313,68 @@ def run_portfolio_pipeline(
         ipopt_executable=ipopt_executable,
     )
 
-  # 3) Save key outputs to CSV in output_dir
+        # ---------------------------------------------------------
+    # 3) Build three key portfolios:
+    #    - Conservative: minimum risk
+    #    - Aggressive: maximum return
+    #    - Balanced: best Return/Risk ratio (elbow-like)
+    # ---------------------------------------------------------
+
+    # Conservative = min risk
+    idx_conservative = df_frontier["Risk"].idxmin()
+    risk_conservative = df_frontier.loc[idx_conservative, "Risk"]
+    ret_conservative = df_frontier.loc[idx_conservative, "Return"]
+
+    # Aggressive = max return
+    idx_aggressive = df_frontier["Return"].idxmax()
+    risk_aggressive = df_frontier.loc[idx_aggressive, "Risk"]
+    ret_aggressive = df_frontier.loc[idx_aggressive, "Return"]
+
+    # Balanced = max Return/Risk ratio (simple proxy for "elbow")
+    df_frontier["Return_to_Risk"] = df_frontier["Return"] / df_frontier["Risk"]
+    idx_balanced = df_frontier["Return_to_Risk"].idxmax()
+    risk_balanced = df_frontier.loc[idx_balanced, "Risk"]
+    ret_balanced = df_frontier.loc[idx_balanced, "Return"]
+
+    # Helper to pull allocations for a given risk level
+    def get_alloc_row_for_risk(target_risk):
+        row = df_allocations.loc[df_allocations["Risk"] == target_risk]
+        # in case of floating comparison quirks, take the first match
+        return row.iloc[0]
+
+    assets = [c for c in df_allocations.columns if c != "Risk"]
+
+    portfolios = []
+
+    # Conservative row
+    alloc_conservative = get_alloc_row_for_risk(risk_conservative)
+    row_conservative = {"Portfolio": "Conservative", "Risk": risk_conservative, "Return": ret_conservative}
+    for a in assets:
+        row_conservative[a] = alloc_conservative[a]
+    portfolios.append(row_conservative)
+
+    # Balanced row
+    alloc_balanced = get_alloc_row_for_risk(risk_balanced)
+    row_balanced = {"Portfolio": "Balanced", "Risk": risk_balanced, "Return": ret_balanced}
+    for a in assets:
+        row_balanced[a] = alloc_balanced[a]
+    portfolios.append(row_balanced)
+
+    # Aggressive row
+    alloc_aggressive = get_alloc_row_for_risk(risk_aggressive)
+    row_aggressive = {"Portfolio": "Aggressive", "Risk": risk_aggressive, "Return": ret_aggressive}
+    for a in assets:
+        row_aggressive[a] = alloc_aggressive[a]
+    portfolios.append(row_aggressive)
+
+    df_key_portfolios = pd.DataFrame(portfolios)
+
+    # Save the 3 key portfolios to CSV
+    df_key_portfolios.to_csv(os.path.join(output_dir, "key_portfolios.csv"), index=False)
+    print(f"Saved key portfolios (Conservative/Balanced/Aggressive) to: {os.path.join(output_dir, 'key_portfolios.csv')}")
+
+
+  # 4) Save key outputs to CSV in output_dir
     monthly_returns.to_csv(os.path.join(output_dir, "monthly_returns.csv"))
     df_frontier.to_csv(os.path.join(output_dir, "efficient_frontier.csv"), index=False)
     df_allocations.to_csv(os.path.join(output_dir, "allocations_by_risk.csv"), index=False)
@@ -314,5 +383,5 @@ def run_portfolio_pipeline(
     print(f"Saved efficient frontier to {os.path.join(output_dir, 'efficient_frontier.csv')}")
     print(f"Saved allocations by risk to {os.path.join(output_dir, 'allocations_by_risk.csv')}")
     
-    # 4) Return everything
+    # 5) Return everything
     return monthly_returns, df_frontier, df_allocations
