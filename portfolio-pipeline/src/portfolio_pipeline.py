@@ -237,6 +237,10 @@ def run_portfolio_model(df: "pd.DataFrame", ipopt_executable: str = "./bin/ipopt
     plt.xlabel("Portfolio Risk (Variance)")
     plt.ylabel("Expected Return")
     plt.grid(True)
+    output_dir = os.environ.get("OUTPUT_DIR", "./output_dir/")
+    os.makedirs(output_dir, exist_ok=True)
+    plt.savefig(os.path.join(output_dir, "efficient_frontier.png"), bbox_inches="tight")
+    print("Saved efficient frontier plot.")
     plt.show()
 
     # Allocations per risk level
@@ -254,6 +258,11 @@ def run_portfolio_model(df: "pd.DataFrame", ipopt_executable: str = "./bin/ipopt
     plt.legend(title="Asset")
     plt.grid(True)
     plt.tight_layout()
+
+    output_dir = os.environ.get("OUTPUT_DIR", "./output_dir/")
+    os.makedirs(output_dir, exist_ok=True)
+    plt.savefig(os.path.join(output_dir, "allocations_spaghetti.png"), bbox_inches="tight")
+    print("Saved allocation spaghetti plot.")
     plt.show()
 
     # Return numeric outputs as before
