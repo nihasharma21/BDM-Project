@@ -23,7 +23,7 @@ def parse_args():
 
 if __name__ == "__main__":
     args = parse_args()
-    mret, frontier, allocs = run_portfolio_pipeline(
+    mret, frontier, allocs, key_ports  = run_portfolio_pipeline(
         ipopt_executable=args.ipopt,
         tickers=args.tickers,
         start_date=args.start,
