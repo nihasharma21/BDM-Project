@@ -59,6 +59,15 @@ The model:
 
 This produces the **efficient frontier**—the curve of optimal risk/return trade-offs.
 
+### Extra Constraints Applied in Optimization
+
+To reflect realistic portfolio construction and prevent over-concentration in any one asset, the following additional constraint was applied:
+
+Maximum allocation per asset: 20% cap
+Each stock is allowed to contribute no more than 0.2 (20%) of the total portfolio weight in any given optimized solution.
+
+This constraint forces diversification and simulates portfolio restrictions often applied by institutional investors.
+
 ---
 
 ## **4. Produce Visualizations**
@@ -111,3 +120,30 @@ Create a new notebook or open the provided notebook.
  
 
 ---
+
+# Output Summary
+
+The model generates an efficient frontier of portfolios by maximizing return for a given level of risk (variance), subject to the above constraints.
+
+## Key Outputs
+
+### Efficient Frontier Curve (efficient_frontier.png)
+
+X-axis: Portfolio risk (variance)
+Y-axis: Expected return
+The curve shows the trade-off between risk and return for optimized portfolios.
+The curve flattens beyond a certain point, indicating diminishing return for increased risk under the constraints.
+
+### Asset Allocation Across Frontier (allocations_spaghetti.png)
+
+Each line: A stock's allocation at each portfolio along the frontier
+
+### Observation:
+
+A few stocks (e.g., MSFT, T, EQIX) frequently hit the 20% ceiling — indicating strong risk-return characteristics.
+Others receive minimal or no weight, suggesting they do not contribute efficiently to optimized portfolios under current market conditions.
+
+### Allocation CSV (efficient_frontier.csv)
+
+Provides detailed allocations per asset at each risk level.
+Useful for selecting specific portfolios (e.g., conservative, balanced, aggressive) and understanding underlying holdings.
