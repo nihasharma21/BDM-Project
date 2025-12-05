@@ -1,5 +1,12 @@
 import argparse
+import os
 from src.portfolio_pipeline import run_portfolio_pipeline
+
+#Creating a directory to store the output
+OUTPUT_DIR = "./output_dir/"
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+os.environ["OUTPUT_DIR"] = OUTPUT_DIR
+
 
 # defaults (edit if you like)
 TICKERS = ['AES','LNT','AEE','AEP','AWK','APD','ALB','AMCR','AVY','BALL','ALL','AON','CPAY','EG','IVZ']
@@ -21,12 +28,10 @@ if __name__ == "__main__":
         tickers=args.tickers,
         start_date=args.start,
         end_date=args.end,
+        # Added this line to save the output
+        output_dir=OUTPUT_DIR, 
     )
     print("\nMonthly returns:", mret.shape)
     print(frontier.head())
     print(allocs.head())
 
-#Creating a directory to store the output
-OUTPUT_DIR = "./output_dir/"
-os.makedirs(OUTPUT_DIR, exist_ok=True)
-os.environ["OUTPUT_DIR"] = OUTPUT_DIR
