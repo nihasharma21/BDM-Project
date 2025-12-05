@@ -156,10 +156,7 @@ This produces a frontier where additional risk does not always translate into mo
 
 ---
 
-### **Specific Insight: Microsoft (MSFT)**
-One notable pattern is that **MSFT stays at the maximum allowed 20% weight across nearly the entire efficient frontier**.  
-
-This does **not** mean “the model is putting everything into Microsoft.” Instead:
+#### One notable pattern is that **MSFT stays at the maximum allowed 20% weight across nearly the entire efficient frontier**.  
 
 - MSFT is one of the most attractive stocks based on monthly returns and covariance.
 - Because of the 20% cap, the optimizer allocates **exactly 20%** to MSFT whenever possible.
