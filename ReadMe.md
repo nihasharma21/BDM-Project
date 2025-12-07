@@ -1,7 +1,7 @@
 #  Strategic Synergy- Stock Optimization Model 
 ### *Portfolio Optimization Pipeline – OPIM 5641 Final Project*
 
-This project implements a reusable, end-to-end **portfolio optimization pipeline** for the OPIM 5641 (Business Decision Modeling) final assignment.  
+This project implements a reusable, end-to-end **portfolio optimization pipeline** for the OPIM 5641 (Business Decision Modelling) final assignment.  
 It downloads real stock data, computes monthly returns, builds an efficient frontier using Modern Portfolio Theory (MPT), and saves all outputs for easy evaluation.
 
 The entire workflow is packaged so anyone can clone the repo and run the model with a single command.
@@ -43,7 +43,7 @@ The pipeline also computes and visualizes:
 - Cumulative returns  
 - Covariance and correlation heatmaps  
 
-These exploratory outputs help understand risk relationships among assets.
+These exploratory outputs helps to understand the risk relationships among assets.
 
 ---
 
@@ -108,7 +108,7 @@ This project is designed so anyone can open a Colab notebook and run the full pi
 
 ### **Step 1 — Open Colab**
 
-Create a new notebook or open the provided notebook.
+Create a new notebook or open the provided notebook in the colab.
 
 ### **Step 2 — Clone the repo and install dependencies**
 
