@@ -128,8 +128,12 @@ def fetch_and_analyze_returns(startdate, enddate, ticker_list):
     plt.title("Correlation Matrix of Monthly Returns")
     plt.show()
 
-    print("Shape of monthly_returns:", monthly_returns.shape)
-    return monthly_returns
+     print("Shape of monthly_returns:", monthly_returns.shape)
+    #Added summary for clarity and debugging (UA)
+     print(f"[INFO] Loaded {monthly_returns.shape[0]} months of data across {monthly_returns.shape[1]} tickers.")
+
+     return monthly_returns
+
 
 
 """# Function 2: Run Portfolio Model
