@@ -390,6 +390,10 @@ def run_portfolio_pipeline(
     print(f"Saved monthly_returns to {os.path.join(output_dir, 'monthly_returns.csv')}")
     print(f"Saved efficient frontier to {os.path.join(output_dir, 'efficient_frontier.csv')}")
     print(f"Saved allocations by risk to {os.path.join(output_dir, 'allocations_by_risk.csv')}")
+
+
+    # Added pipeline completion message 
+    print("[INFO] Portfolio pipeline completed successfully.")
     
     # 5) Return everything
     return monthly_returns, df_frontier, df_allocations, df_key_portfolios
