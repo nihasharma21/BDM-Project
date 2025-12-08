@@ -169,7 +169,10 @@ def run_portfolio_model(df: "pd.DataFrame", ipopt_executable: str = "./bin/ipopt
     cov_dict = {(i, j): cov_df.loc[i, j] for i in assets for j in assets}
     m.Sigma = Param(m.Assets, m.Assets, initialize=cov_dict)
     print("Checking the covariance values\n\n")
-    m.pprint()
+    m.pprint()  # Added pprint for model structure clarity
+    print(f"[INFO] Model initialized with {len(assets)} assets.")
+
+
 
     # Average returns
     avg_returns = df.mean().to_dict()
