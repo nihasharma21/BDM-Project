@@ -132,7 +132,7 @@ def fetch_and_analyze_returns(startdate, enddate, ticker_list):
     #Added summary for clarity and debugging (UA)
     print(f"[INFO] Loaded {monthly_returns.shape[0]} months of data across {monthly_returns.shape[1]} tickers.")
 
-     return monthly_returns
+    return monthly_returns
 
 
 
