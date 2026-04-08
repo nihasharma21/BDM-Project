@@ -1,166 +1,242 @@
-#  Strategic Synergy- Stock Optimization Model
-### *Portfolio Optimization Pipeline – OPIM 5641 Final Project*
+# 📊 Stock Portfolio Optimization Project
 
-This project implements a reusable, end-to-end **portfolio optimization pipeline** for the OPIM 5641 (Business Decision Modelling) final assignment.  
-It downloads real stock data, computes monthly returns, builds an efficient frontier using Modern Portfolio Theory (MPT), and saves all outputs for easy evaluation.
+## 🚀 What this project is
 
-The entire workflow is packaged so anyone can clone the repo and run the model with a single command.
+I built this project to understand how we can take real stock market data and turn it into a structured investment strategy.
 
----
+Instead of picking individual stocks, I wanted to answer:
 
-#  Project Overview (High-Level)
+👉 *How do we combine multiple stocks in a way that balances risk and return, while still staying diversified?*
 
-This project performs the following steps:
-
-1. **Download real stock price data** using Yahoo Finance  
-2. **Convert daily prices to monthly returns**  
-3. **Build a Markowitz portfolio optimization model** using Pyomo + IPOPT  
-4. **Generate visualizations**:  
-   - Efficient Frontier  
-   - Asset Allocation (“Spaghetti Plot”)  
-5. **Save all results** (tables + charts) into `output_dir/`  
-6. **Provide a reusable pipeline** that supports future extensions such as paper-trading and out-of-sample testing.
+This project takes that idea end-to-end — from raw data to an optimized portfolio.
 
 ---
 
+## 🧠 What I actually did
+
+### 1. Pulled real market data
+
+I collected stock data (2022–2024) across:
+
+* Tech (AAPL, MSFT, META, NFLX, ADBE, PLTR)
+* Telecom (T, CMCSA)
+* Real Estate (DLR, VTR, ESS, SBAC, EQIX)
+
+Then converted it into:
+
+* Daily returns
+* Monthly returns (used for modeling)
 
 ---
 
-# What the Project Does (Step-By-Step)
+### 2. Understood how these stocks behave
 
-## **1. Data Download**
-The pipeline begins by downloading **daily adjusted closing prices** for any list of user-provided stock tickers using the Yahoo Finance API.  
-This provides the raw financial data for modeling.
+Before building anything, I explored:
 
----
+* Which stocks move together?
+* Which ones behave differently?
 
-## **2. Convert Daily Prices to Monthly Returns**
-Daily data is cleaned and resampled into **monthly percentage returns**, which are more stable and suitable for portfolio optimization.
+What stood out:
 
-The pipeline also computes and visualizes:
-- Daily percentage returns  
-- Log returns  
-- Cumulative returns  
-- Covariance and correlation heatmaps  
+* Tech stocks tend to move together → higher risk as a group
+* Real estate and telecom stocks behave more independently
+* This creates real diversification opportunities
 
-These exploratory outputs helps to understand the risk relationships among assets.
+👉 This step was important because diversification only works if assets don’t all move the same way.
 
 ---
 
-## **3. Build an Optimization Model**
-The core of the project is a **Modern Portfolio Theory (MPT)** optimization model implemented with Pyomo and solved using IPOPT.
+### 3. Built a portfolio model
 
-The model:
-- Controls one decision variable per stock (its portfolio weight)  
-- Forces all weights to sum to 1 (fully invested)  
-- Enforces long-only weights (0–100%)  
-- Maximizes expected return  
-- Iteratively explores multiple **risk levels** using the covariance matrix  
+I created a model that:
 
-This produces the **efficient frontier**—the curve of optimal risk/return trade-offs.
+* Allocates weights across all stocks
+* Ensures total allocation = 100%
+* Limits each stock to max 20%
 
-### Extra Constraints Applied in Optimization
+👉 This prevents over-concentration and forces diversification.
 
-To reflect realistic portfolio construction and prevent over-concentration in any one asset, the following additional constraint was applied:
-
-Maximum allocation per asset: 20% cap
-Each stock is allowed to contribute no more than 0.2 (20%) of the total portfolio weight in any given optimized solution.
-
-This constraint forces diversification and simulates portfolio restrictions often applied by institutional investors.
+The model then explores multiple risk levels and finds the best allocation for each.
 
 ---
 
-## **4. Produce Visualizations**
-Two main charts are generated:
+## 📊 What the plots show
 
-### **Efficient Frontier**
-A plot of:
-- Portfolio risk (variance)  
-- Portfolio expected return  
+### Efficient Frontier (Risk vs Return)
 
-This shows which portfolios are optimal for each risk level.
+![Efficient Frontier](docs/images/efficient_frontier.png)
 
-### **Asset Allocation Plot**
-Also known as the “spaghetti plot,” showing:
-- How weights for each stock change as risk increases  
-- Which assets dominate conservative vs aggressive portfolios  
+This plot shows the relationship between:
 
----
+* Risk (how volatile the portfolio is)
+* Return (expected gain)
 
-## **5. Save All Outputs into `output_dir/`**
-The pipeline writes results to disk for easy review:
+What I observed:
 
-- `monthly_returns.csv`  
-- `efficient_frontier.csv`  
-- `allocations_by_risk.csv`  
-- `efficient_frontier.png`  
-- `allocations_spaghetti.png`  
+* At first, increasing risk improves return
+* After a point, the curve flattens → taking more risk doesn’t give much extra return
+
+👉 This helped me understand where “too much risk” stops being worth it.
 
 ---
 
-#  How to Run the Project
+### Asset Allocation Across Risk Levels
 
+![Asset Allocation](docs/images/allocations_spaghetti.png)
 
+Each line represents how much weight is given to a stock as risk increases.
 
-# **1.  Run Everything in Google Colab** (Recommended)
+What this shows:
 
-This project is designed so anyone can open a Colab notebook and run the full pipeline with **one setup cell**.
-
-### **Step 1 — Open Colab**
-
-Create a new notebook or open the provided notebook in the colab.
-
-### **Step 2 — Clone the repo and install dependencies**
-
-### **Step 3 - Run the portfolio pipeline**
- Choose your ticker list
- Then run the full pipeline
-
- ### **Step 4 - View saved outputs**
- 
+* Some stocks dominate the portfolio across many risk levels
+* Others are almost never selected
+* The model keeps adjusting weights as it moves from conservative → aggressive portfolios
 
 ---
 
-# Output Summary
+## 🔍 Key insights (this is what really mattered)
 
-The model generates an efficient frontier of portfolios by maximizing return for a given level of risk (variance), subject to the above constraints.
+### 📌 Not all stocks are equally useful
 
-## Key Outputs
+* A few stocks consistently get high allocation
+* Many stocks get near-zero weight
 
-### Efficient Frontier Curve (efficient_frontier.png)
+👉 This means:
 
-X-axis: Portfolio risk (variance)
-Y-axis: Expected return
-The curve shows the trade-off between risk and return for optimized portfolios.
-The curve flattens beyond a certain point, indicating diminishing return for increased risk under the constraints.
-
-### Asset Allocation Across Frontier (allocations_spaghetti.png)
-
-Each line: A stock's allocation at each portfolio along the frontier
-
-### Allocation CSV (efficient_frontier.csv)
-
-Provides detailed allocations per asset at each risk level.
-Useful for selecting specific portfolios (e.g., conservative, balanced, aggressive) and understanding underlying holdings.
-
-##  Observations From the Allocation-by-Risk Chart
-
-### **Overall Allocation Behavior**
-The allocation-by-risk (“spaghetti”) chart shows how the portfolio composition changes as the optimizer moves across increasing levels of portfolio risk. A clear pattern emerges:
-
-- A small set of high-return stocks consistently receive the highest allocations.
-- Many stocks receive near-zero weights across most of the frontier, indicating that they are not attractive given their return–risk–correlation profile.
-- The 20% position cap is **binding** for several assets—meaning the optimizer wants to allocate more than 20% to them, but is restricted by the diversification constraint.
-
-This produces a frontier where additional risk does not always translate into more expected return, because the model is already maxing out the most attractive assets.
+> Just adding more stocks doesn’t improve a portfolio — only the *right* ones matter.
 
 ---
 
-#### One notable pattern is that **MSFT stays at the maximum allowed 20% weight across nearly the entire efficient frontier**.  
+### 📌 MSFT stands out strongly
 
-- MSFT is one of the most attractive stocks based on monthly returns and covariance.
-- Because of the 20% cap, the optimizer allocates **exactly 20%** to MSFT whenever possible.
-- Other stocks such as EQIX, PLTR, ADBE, META, and T exhibit similar behavior—they also hit the 20% ceiling across long portions of the frontier.
+* Microsoft stays at **~20% allocation across almost all portfolios**
+* The model *always wants more*, but is capped at 20%
 
-This confirms that the **max-weight diversification constraint is actively shaping the portfolio**, preventing unrealistic concentration in a few dominant names.
+👉 This tells me:
 
+> MSFT has a strong combination of return + stability + diversification value
+
+---
+
+### 📌 Other dominant stocks
+
+Stocks like:
+
+* EQIX
+* PLTR
+* META
+* ADBE
+* T
+
+also frequently hit the **20% cap**
+
+👉 Meaning:
+
+> These are the most “valuable” assets in the portfolio according to the model
+
+---
+
+### 📌 The 20% cap actually matters
+
+Without the constraint:
+
+* The model would heavily concentrate on a few stocks
+
+With the constraint:
+
+* The portfolio is forced to spread across sectors
+
+👉 This makes the solution more realistic (like real-world funds)
+
+---
+
+### 📌 More risk ≠ much more return (after a point)
+
+From the efficient frontier:
+
+* There’s a clear point where returns stop increasing meaningfully
+* But risk continues increasing
+
+👉 That’s where a “balanced” portfolio makes more sense
+
+---
+
+## 💡 Final output
+
+The model generates three practical portfolio types:
+
+* **Conservative** → lower risk
+* **Balanced** → best return for risk
+* **Aggressive** → highest return
+
+Saved here:
+
+```bash
+portfolio-pipeline/output_dir/key_portfolios.csv
+```
+
+---
+
+## 🛠️ Tools I used
+
+* Python
+* Pandas, NumPy
+* Matplotlib
+* Pyomo (for optimization)
+* yFinance (for stock data)
+
+---
+
+## ▶️ How to run
+
+```bash
+git clone https://github.com/nihasharma21/BDM-Project.git
+cd BDM-Project/portfolio-pipeline
+pip install -r requirements.txt
+python main.py
+```
+
+---
+
+## 📓 Colab version
+
+I’ve also included a Colab notebook in this repo that:
+
+* Clones the project
+* Installs dependencies
+* Runs the pipeline end-to-end
+
+Useful if you want to run it quickly without setup.
+
+---
+
+## 📁 Project structure
+
+```bash
+BDM-Project/
+│
+├── docs/
+│   └── images/
+│       ├── efficient_frontier.png
+│       └── allocations_spaghetti.png
+│
+├── portfolio-pipeline/
+│   ├── main.py
+│   ├── src/
+│   └── output_dir/
+│
+└── ReadMe.md
+```
+
+---
+
+## 🎯 What I take away from this
+
+This project helped me understand:
+
+* How risk actually shows up in data
+* Why correlation matters more than individual performance
+* How constraints shape real-world decisions
+* How to move from raw data → decision-making
+
+---
